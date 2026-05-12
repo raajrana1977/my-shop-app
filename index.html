@@ -1,140 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghosia Shop Manager</title>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghosia Shop Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="p-4 bg-gray-50 font-sans">
-
+<body class="p-4 bg-gray-100 font-sans">
     <div class="max-w-md mx-auto">
-        <h1 class="text-2xl font-bold text-center text-blue-900 mb-6">Ghosia Shop Manager</h1>
+        <h1 class="text-2xl font-bold text-center text-blue-900 mb-4">Ghosia Shop Pro</h1>
 
-        <!-- SECTION 1: DAILY INPUT -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 mb-6">
-            <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">1. Daily Record Entry</h2>
-            
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Total Sales (Rs.)</label>
-                    <input type="number" id="sales" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Product Cost</label>
-                        <input type="number" id="cost" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Total Salaries</label>
-                        <input type="number" id="salaries" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Utilities (Gas/Elec)</label>
-                        <input type="number" id="utils" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700">Food & Tea</label>
-                        <input type="number" id="food" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Other Expenses</label>
-                    <input type="number" id="other" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
-                </div>
-
-                <button onclick="saveDailyData()" id="saveBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-blue-100">
-                    SAVE TODAY'S DATA
-                </button>
-            </div>
+        <!-- LIVE DAILY PROFIT DISPLAY -->
+        <div class="bg-blue-600 text-white p-4 rounded-2xl shadow-lg mb-6 text-center">
+            <p class="text-xs opacity-80 uppercase font-bold">Today's Live Profit</p>
+            <h2 id="liveNet" class="text-3xl font-black">Rs. 0</h2>
         </div>
 
-        <!-- SECTION 2: MONTHLY CALCULATION -->
-        <div class="bg-slate-900 p-6 rounded-2xl shadow-xl">
-            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">2. Monthly Settlement</h2>
+        <!-- INPUT SECTION -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4 mb-6">
+            <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider">Daily Records</h2>
             
-            <div id="monthlyDisplay" class="hidden space-y-4">
-                <div class="flex justify-between items-center text-slate-300">
-                    <span>Total Net Profit:</span>
-                    <span id="monthlyTotal" class="text-xl font-bold text-white">Rs. 0</span>
+            <div><label class="text-sm font-bold">Total Sales</label>
+            <input type="number" id="Sales" oninput="updateLive()" class="w-full p-3 bg-gray-50 border rounded-xl outline-blue-500"></div>
+            
+            <div><label class="text-sm font-bold">Product Cost</label>
+            <input type="number" id="Cost" oninput="updateLive()" class="w-full p-3 bg-gray-50 border rounded-xl outline-blue-500"></div>
+
+            <div class="grid grid-cols-3 gap-2">
+                <div><label class="text-xs font-bold text-gray-500">Salary 1</label><input type="number" id="Sal1" oninput="updateLive()" class="w-full p-2 border rounded"></div>
+                <div><label class="text-xs font-bold text-gray-500">Salary 2</label><input type="number" id="Sal2" oninput="updateLive()" class="w-full p-2 border rounded"></div>
+                <div><label class="text-xs font-bold text-gray-500">Salary 3</label><input type="number" id="Sal3" oninput="updateLive()" class="w-full p-2 border rounded"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div><label class="text-xs font-bold text-gray-500">Gas Bill</label><input type="number" id="Gas" oninput="updateLive()" class="w-full p-3 border rounded"></div>
+                <div><label class="text-xs font-bold text-gray-500">Elec Bill</label><input type="number" id="Elec" oninput="updateLive()" class="w-full p-3 border rounded"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div><label class="text-xs font-bold text-gray-500">Staff Food</label><input type="number" id="Food" oninput="updateLive()" class="w-full p-3 border rounded"></div>
+                <div><label class="text-xs font-bold text-gray-500">Tea Expense</label><input type="number" id="Tea" oninput="updateLive()" class="w-full p-3 border rounded"></div>
+            </div>
+
+            <input type="number" id="Other" oninput="updateLive()" placeholder="Other Expenses" class="w-full p-3 border rounded">
+
+            <button onclick="saveData()" id="btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-2xl shadow-md transition-all">
+                SAVE TO GOOGLE SHEET
+            </button>
+        </div>
+
+        <!-- MONTHLY CALCULATION BOX -->
+        <div class="bg-slate-900 p-6 rounded-2xl shadow-xl text-white">
+            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Month-End Settlement</h2>
+            
+            <div id="monthlyDisplay" class="hidden space-y-4 mb-4">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                    <span class="text-slate-400">Total Profit:</span>
+                    <span id="monthlyTotal" class="text-xl font-bold">Rs. 0</span>
                 </div>
-                <div class="h-px bg-slate-800"></div>
-                <div class="p-4 bg-slate-800 rounded-xl">
-                    <p class="text-xs text-slate-400 uppercase mb-1">Partner 1 (After -15k Loan)</p>
-                    <p id="p1Final" class="text-2xl font-bold text-blue-400">Rs. 0</p>
+                <div class="p-3 bg-slate-800 rounded-lg">
+                    <p class="text-xs text-blue-400 font-bold uppercase">Partner 1 (Split - 15k)</p>
+                    <p id="p1Final" class="text-2xl font-black">Rs. 0</p>
                 </div>
-                <div class="p-4 bg-slate-800 rounded-xl border border-yellow-900/30">
-                    <p class="text-xs text-slate-400 uppercase mb-1">Partner 2 (After +15k Loan)</p>
-                    <p id="p2Final" class="text-2xl font-bold text-yellow-500">Rs. 0</p>
+                <div class="p-3 bg-slate-800 rounded-lg">
+                    <p class="text-xs text-yellow-500 font-bold uppercase">Partner 2 (Split + 15k)</p>
+                    <p id="p2Final" class="text-2xl font-black">Rs. 0</p>
                 </div>
             </div>
 
-            <button onclick="calculateMonthEnd()" class="w-full mt-2 bg-slate-800 text-slate-300 py-3 rounded-xl font-medium border border-slate-700 hover:bg-slate-700">
-                View Monthly Calculation
+            <button onclick="calculateMonthEnd()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl font-bold border border-slate-600">
+                CALCULATE MONTH END
             </button>
         </div>
     </div>
 
     <script>
-        // 1. YOUR GOOGLE SCRIPT URL GOES HERE
-        const scriptURL = 'PASTE_YOUR_URL_HERE'; 
+        // PASTE YOUR URL BELOW
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbypkEcBhN8HHtFiJbqs9f2gLnkLgMum6Me7Ag7d5CGwCKc8D-F3SgY_m_O5B4BRqXJc4A/exec';
 
-        // Function to send data to Google Sheets
-        async function saveDailyData() {
-            const btn = document.getElementById('saveBtn');
-            const originalText = btn.innerText;
-            
-            // Get values
-            const sales = document.getElementById('sales').value || 0;
-            const cost = document.getElementById('cost').value || 0;
-            const salaries = document.getElementById('salaries').value || 0;
-            const utils = document.getElementById('utils').value || 0;
-            const food = document.getElementById('food').value || 0;
-            const other = document.getElementById('other').value || 0;
+        function updateLive() {
+            const s = parseFloat(document.getElementById('Sales').value) || 0;
+            const c = parseFloat(document.getElementById('Cost').value) || 0;
+            const ex = ['Sal1','Sal2','Sal3','Gas','Elec','Food','Tea','Other'].reduce((a,id)=>a+(parseFloat(document.getElementById(id).value)||0),0);
+            const dailyNet = s - c - ex;
+            document.getElementById('liveNet').innerText = "Rs. " + dailyNet.toLocaleString();
+            return dailyNet;
+        }
 
-            if(sales == 0) { alert("Please enter today's sales!"); return; }
-
-            btn.innerText = "Processing...";
+        async function saveData() {
+            if(!document.getElementById('Sales').value) return alert("Enter Sales first!");
+            const btn = document.getElementById('btn');
+            btn.innerText = "Saving...";
             btn.disabled = true;
 
-            const params = new URLSearchParams({
-                'Sales': sales,
-                'Cost': cost,
-                'Salaries': salaries,
-                'Utilities': utils,
-                'Food': food,
-                'Other': other
+            const params = new URLSearchParams();
+            ['Sales','Cost','Sal1','Sal2','Sal3','Gas','Elec','Food','Tea','Other'].forEach(id => {
+                params.append(id, document.getElementById(id).value || 0);
             });
 
             try {
-                // Send data using GET method (simpler for Apps Script Web Apps)
-                await fetch(scriptURL + "?" + params.toString(), { method: 'GET' });
-                alert("Data saved successfully to your Google Sheet!");
-                location.reload(); 
+                await fetch(scriptURL + "?" + params.toString());
+                alert("Saved successfully!");
+                location.reload();
             } catch (e) { 
-                alert("Saved locally! Make sure your Script URL is correct."); 
-                btn.innerText = originalText;
+                alert("Check your Internet or Script URL."); 
+                btn.innerText="Save"; 
                 btn.disabled = false;
             }
         }
 
-        // Function to show the monthly split and loan math
         function calculateMonthEnd() {
-            const sales = parseFloat(document.getElementById('sales').value) || 0;
-            const cost = parseFloat(document.getElementById('cost').value) || 0;
-            const expenses = (parseFloat(document.getElementById('salaries').value) || 0) + 
-                             (parseFloat(document.getElementById('utils').value) || 0) + 
-                             (parseFloat(document.getElementById('food').value) || 0) + 
-                             (parseFloat(document.getElementById('other').value) || 0);
+            // For now, this calculates based on the screen numbers. 
+            // In the future, we can make it pull the REAL sum from Google Sheets.
+            const netProfit = updateLive();
             
-            const netProfit = sales - cost - expenses;
-            
-            // Monthly Logic: Split first, then adjust 15,000 once
             const baseSplit = netProfit / 2;
             const p1 = baseSplit - 15000;
             const p2 = baseSplit + 15000;
