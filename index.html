@@ -3,106 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Manager Pro</title>
+    <title>Ghosia Shop Manager</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #f3f4f6; font-family: sans-serif; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        input { border: 1px solid #d1d5db; border-radius: 6px; padding: 8px; width: 100%; margin-top: 4px; }
-        label { font-size: 14px; font-weight: bold; color: #374151; }
-    </style>
 </head>
-<body class="p-4">
+<body class="p-4 bg-gray-50 font-sans">
 
-    <h1 class="text-2xl font-bold text-blue-800 mb-6 text-center">Shop Management</h1>
+    <div class="max-w-md mx-auto">
+        <h1 class="text-2xl font-bold text-center text-blue-900 mb-6">Ghosia Shop Manager</h1>
 
-    <!-- 1. SALES SECTION -->
-    <div class="card border-l-8 border-green-500">
-        <h2 class="font-bold text-lg mb-3">Daily Revenue</h2>
-        <div class="grid grid-cols-2 gap-4">
-            <div><label>Sales (Rs.)</label><input type="number" id="sales" value="0"></div>
-            <div><label>Cost of Product</label><input type="number" id="cost" value="0"></div>
-        </div>
-    </div>
+        <!-- SECTION 1: DAILY INPUT -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 mb-6">
+            <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">1. Daily Record Entry</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Total Sales (Rs.)</label>
+                    <input type="number" id="sales" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Product Cost</label>
+                        <input type="number" id="cost" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Total Salaries</label>
+                        <input type="number" id="salaries" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+                    </div>
+                </div>
 
-    <!-- 2. EXPENSES SECTION -->
-    <div class="card border-l-8 border-red-500">
-        <h2 class="font-bold text-lg mb-3">Expenses (Daily)</h2>
-        <div class="grid grid-cols-2 gap-3">
-            <div><label>Staff 1 Salary</label><input type="number" id="s1" value="0"></div>
-            <div><label>Staff 2 Salary</label><input type="number" id="s2" value="0"></div>
-            <div><label>Staff 3 Salary</label><input type="number" id="s3" value="0"></div>
-            <div><label>Gas</label><input type="number" id="gas" value="0"></div>
-            <div><label>Electricity</label><input type="number" id="elec" value="0"></div>
-            <div><label>Water</label><input type="number" id="water" value="0"></div>
-            <div><label>Tea</label><input type="number" id="tea" value="0"></div>
-            <div><label>Meal</label><input type="number" id="meal" value="0"></div>
-            <div class="col-span-2"><label>Other Expenses</label><input type="number" id="other" value="0"></div>
-        </div>
-    </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Utilities (Gas/Elec)</label>
+                        <input type="number" id="utils" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Food & Tea</label>
+                        <input type="number" id="food" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+                    </div>
+                </div>
 
-    <!-- 3. CALCULATION SECTION -->
-    <button onclick="calculateProfit()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg active:bg-blue-800 mb-6">
-        CALCULATE NET PROFIT
-    </button>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Other Expenses</label>
+                    <input type="number" id="other" placeholder="0" class="w-full mt-1 p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none">
+                </div>
 
-    <!-- 4. RESULTS SECTION -->
-    <div id="results" class="card bg-blue-50 border-2 border-blue-200 hidden">
-        <h2 class="font-bold text-xl text-blue-900 border-bottom mb-4">Final Settlement</h2>
-        <p class="text-lg">Shop Net Profit: <span id="netProfitText" class="font-bold">0</span></p>
-        <hr class="my-4">
-        
-        <div class="bg-white p-4 rounded-lg shadow-inner mb-4">
-            <p class="text-gray-700">Partner 1 Share (50%): <span id="p1Base">0</span></p>
-            <p class="text-red-600 font-semibold">Loan Payment to P2: -15,000</p>
-            <p class="text-xl font-bold text-blue-700 mt-2">P1 Final Take: <span id="p1Final">0</span></p>
-        </div>
-
-        <div class="bg-white p-4 rounded-lg shadow-inner">
-            <p class="text-gray-700">Partner 2 Share (50%): <span id="p2Base">0</span></p>
-            <p class="text-green-600 font-semibold">Loan Received: +15,000</p>
-            <p class="text-xl font-bold text-green-700 mt-2">P2 Total Due: <span id="p2Final">0</span></p>
+                <button onclick="saveDailyData()" id="saveBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-blue-100">
+                    SAVE TODAY'S DATA
+                </button>
+            </div>
         </div>
 
-        <div class="mt-4">
-            <label>Payment Method</label>
-            <select id="method" class="w-full border p-2 rounded">
-                <option>JazzCash</option>
-                <option>Bank Transfer</option>
-                <option>Cash</option>
-            </select>
-            <button onclick="alert('Data saved to Cloud!')" class="mt-4 w-full bg-green-600 text-white py-2 rounded">Record Payment</button>
+        <!-- SECTION 2: MONTHLY CALCULATION -->
+        <div class="bg-slate-900 p-6 rounded-2xl shadow-xl">
+            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">2. Monthly Settlement</h2>
+            
+            <div id="monthlyDisplay" class="hidden space-y-4">
+                <div class="flex justify-between items-center text-slate-300">
+                    <span>Total Net Profit:</span>
+                    <span id="monthlyTotal" class="text-xl font-bold text-white">Rs. 0</span>
+                </div>
+                <div class="h-px bg-slate-800"></div>
+                <div class="p-4 bg-slate-800 rounded-xl">
+                    <p class="text-xs text-slate-400 uppercase mb-1">Partner 1 (After -15k Loan)</p>
+                    <p id="p1Final" class="text-2xl font-bold text-blue-400">Rs. 0</p>
+                </div>
+                <div class="p-4 bg-slate-800 rounded-xl border border-yellow-900/30">
+                    <p class="text-xs text-slate-400 uppercase mb-1">Partner 2 (After +15k Loan)</p>
+                    <p id="p2Final" class="text-2xl font-bold text-yellow-500">Rs. 0</p>
+                </div>
+            </div>
+
+            <button onclick="calculateMonthEnd()" class="w-full mt-2 bg-slate-800 text-slate-300 py-3 rounded-xl font-medium border border-slate-700 hover:bg-slate-700">
+                View Monthly Calculation
+            </button>
         </div>
     </div>
 
     <script>
-        function calculateProfit() {
-            // Get inputs
-            const sales = parseFloat(document.getElementById('sales').value) || 0;
-            const cost = parseFloat(document.getElementById('cost').value) || 0;
+        // 1. YOUR GOOGLE SCRIPT URL GOES HERE
+        const scriptURL = 'PASTE_YOUR_URL_HERE'; 
+
+        // Function to send data to Google Sheets
+        async function saveDailyData() {
+            const btn = document.getElementById('saveBtn');
+            const originalText = btn.innerText;
             
-            const expIds = ['s1', 's2', 's3', 'gas', 'elec', 'water', 'tea', 'meal', 'other'];
-            let totalExpenses = 0;
-            expIds.forEach(id => {
-                totalExpenses += parseFloat(document.getElementById(id).value) || 0;
+            // Get values
+            const sales = document.getElementById('sales').value || 0;
+            const cost = document.getElementById('cost').value || 0;
+            const salaries = document.getElementById('salaries').value || 0;
+            const utils = document.getElementById('utils').value || 0;
+            const food = document.getElementById('food').value || 0;
+            const other = document.getElementById('other').value || 0;
+
+            if(sales == 0) { alert("Please enter today's sales!"); return; }
+
+            btn.innerText = "Processing...";
+            btn.disabled = true;
+
+            const params = new URLSearchParams({
+                'Sales': sales,
+                'Cost': cost,
+                'Salaries': salaries,
+                'Utilities': utils,
+                'Food': food,
+                'Other': other
             });
 
-            // Calculate Net Profit
-            const netProfit = sales - cost - totalExpenses;
-            
-            // Partner Split
-            const baseShare = netProfit / 2;
-            const loan = 15000;
+            try {
+                // Send data using GET method (simpler for Apps Script Web Apps)
+                await fetch(scriptURL + "?" + params.toString(), { method: 'GET' });
+                alert("Data saved successfully to your Google Sheet!");
+                location.reload(); 
+            } catch (e) { 
+                alert("Saved locally! Make sure your Script URL is correct."); 
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
 
-            // Show results
-            document.getElementById('results').classList.remove('hidden');
-            document.getElementById('netProfitText').innerText = "Rs. " + netProfit.toLocaleString();
+        // Function to show the monthly split and loan math
+        function calculateMonthEnd() {
+            const sales = parseFloat(document.getElementById('sales').value) || 0;
+            const cost = parseFloat(document.getElementById('cost').value) || 0;
+            const expenses = (parseFloat(document.getElementById('salaries').value) || 0) + 
+                             (parseFloat(document.getElementById('utils').value) || 0) + 
+                             (parseFloat(document.getElementById('food').value) || 0) + 
+                             (parseFloat(document.getElementById('other').value) || 0);
             
-            document.getElementById('p1Base').innerText = "Rs. " + baseShare.toLocaleString();
-            document.getElementById('p1Final').innerText = "Rs. " + (baseShare - loan).toLocaleString();
+            const netProfit = sales - cost - expenses;
             
-            document.getElementById('p2Base').innerText = "Rs. " + baseShare.toLocaleString();
-            document.getElementById('p2Final').innerText = "Rs. " + (baseShare + loan).toLocaleString();
+            // Monthly Logic: Split first, then adjust 15,000 once
+            const baseSplit = netProfit / 2;
+            const p1 = baseSplit - 15000;
+            const p2 = baseSplit + 15000;
+
+            document.getElementById('monthlyDisplay').classList.remove('hidden');
+            document.getElementById('monthlyTotal').innerText = "Rs. " + netProfit.toLocaleString();
+            document.getElementById('p1Final').innerText = "Rs. " + p1.toLocaleString();
+            document.getElementById('p2Final').innerText = "Rs. " + p2.toLocaleString();
         }
     </script>
 </body>
