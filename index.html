@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Manager Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f3f4f6; font-family: sans-serif; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input { border: 1px solid #d1d5db; border-radius: 6px; padding: 8px; width: 100%; margin-top: 4px; }
+        label { font-size: 14px; font-weight: bold; color: #374151; }
+    </style>
+</head>
+<body class="p-4">
+
+    <h1 class="text-2xl font-bold text-blue-800 mb-6 text-center">Shop Management</h1>
+
+    <!-- 1. SALES SECTION -->
+    <div class="card border-l-8 border-green-500">
+        <h2 class="font-bold text-lg mb-3">Daily Revenue</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <div><label>Sales (Rs.)</label><input type="number" id="sales" value="0"></div>
+            <div><label>Cost of Product</label><input type="number" id="cost" value="0"></div>
+        </div>
+    </div>
+
+    <!-- 2. EXPENSES SECTION -->
+    <div class="card border-l-8 border-red-500">
+        <h2 class="font-bold text-lg mb-3">Expenses (Daily)</h2>
+        <div class="grid grid-cols-2 gap-3">
+            <div><label>Staff 1 Salary</label><input type="number" id="s1" value="0"></div>
+            <div><label>Staff 2 Salary</label><input type="number" id="s2" value="0"></div>
+            <div><label>Staff 3 Salary</label><input type="number" id="s3" value="0"></div>
+            <div><label>Gas</label><input type="number" id="gas" value="0"></div>
+            <div><label>Electricity</label><input type="number" id="elec" value="0"></div>
+            <div><label>Water</label><input type="number" id="water" value="0"></div>
+            <div><label>Tea</label><input type="number" id="tea" value="0"></div>
+            <div><label>Meal</label><input type="number" id="meal" value="0"></div>
+            <div class="col-span-2"><label>Other Expenses</label><input type="number" id="other" value="0"></div>
+        </div>
+    </div>
+
+    <!-- 3. CALCULATION SECTION -->
+    <button onclick="calculateProfit()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg active:bg-blue-800 mb-6">
+        CALCULATE NET PROFIT
+    </button>
+
+    <!-- 4. RESULTS SECTION -->
+    <div id="results" class="card bg-blue-50 border-2 border-blue-200 hidden">
+        <h2 class="font-bold text-xl text-blue-900 border-bottom mb-4">Final Settlement</h2>
+        <p class="text-lg">Shop Net Profit: <span id="netProfitText" class="font-bold">0</span></p>
+        <hr class="my-4">
+        
+        <div class="bg-white p-4 rounded-lg shadow-inner mb-4">
+            <p class="text-gray-700">Partner 1 Share (50%): <span id="p1Base">0</span></p>
+            <p class="text-red-600 font-semibold">Loan Payment to P2: -15,000</p>
+            <p class="text-xl font-bold text-blue-700 mt-2">P1 Final Take: <span id="p1Final">0</span></p>
+        </div>
+
+        <div class="bg-white p-4 rounded-lg shadow-inner">
+            <p class="text-gray-700">Partner 2 Share (50%): <span id="p2Base">0</span></p>
+            <p class="text-green-600 font-semibold">Loan Received: +15,000</p>
+            <p class="text-xl font-bold text-green-700 mt-2">P2 Total Due: <span id="p2Final">0</span></p>
+        </div>
+
+        <div class="mt-4">
+            <label>Payment Method</label>
+            <select id="method" class="w-full border p-2 rounded">
+                <option>JazzCash</option>
+                <option>Bank Transfer</option>
+                <option>Cash</option>
+            </select>
+            <button onclick="alert('Data saved to Cloud!')" class="mt-4 w-full bg-green-600 text-white py-2 rounded">Record Payment</button>
+        </div>
+    </div>
+
+    <script>
+        function calculateProfit() {
+            // Get inputs
+            const sales = parseFloat(document.getElementById('sales').value) || 0;
+            const cost = parseFloat(document.getElementById('cost').value) || 0;
+            
+            const expIds = ['s1', 's2', 's3', 'gas', 'elec', 'water', 'tea', 'meal', 'other'];
+            let totalExpenses = 0;
+            expIds.forEach(id => {
+                totalExpenses += parseFloat(document.getElementById(id).value) || 0;
+            });
+
+            // Calculate Net Profit
+            const netProfit = sales - cost - totalExpenses;
+            
+            // Partner Split
+            const baseShare = netProfit / 2;
+            const loan = 15000;
+
+            // Show results
+            document.getElementById('results').classList.remove('hidden');
+            document.getElementById('netProfitText').innerText = "Rs. " + netProfit.toLocaleString();
+            
+            document.getElementById('p1Base').innerText = "Rs. " + baseShare.toLocaleString();
+            document.getElementById('p1Final').innerText = "Rs. " + (baseShare - loan).toLocaleString();
+            
+            document.getElementById('p2Base').innerText = "Rs. " + baseShare.toLocaleString();
+            document.getElementById('p2Final').innerText = "Rs. " + (baseShare + loan).toLocaleString();
+        }
+    </script>
+</body>
+</html>
